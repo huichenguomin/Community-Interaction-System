@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="http://at.alicdn.com/t/font_1786038_m62pqneyrzf.css">
+  <link rel="stylesheet" type="text/css" href="../css/login.css">
+<!--  <script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>-->
+  <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+  <script type="text/javascript" src="../js/login.js"></script>
+  <title>login</title>
+</head>
+
+<body>
+
+<!--<div id="app" class="form-wrapper">-->
+<!--  <div class="header">-->
+<!--    login-->
+<!--  </div>-->
+
+<!--  <div class="input-wrapper">-->
+<!--    <div class="border-wrapper">-->
+<!--      <input type="text" id= "un"  v-model="usn" placeholder="username" class="border-item" autocomplete="off">-->
+<!--    </div>-->
+<!--    <div class="border-wrapper">-->
+<!--      <input type="password" id="pw"  v-model="pswd" placeholder="password" class="border-item" autocomplete="off">-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="action">-->
+<!--    <div class="btn" onclick="loginIn()" >login</div>-->
+<!--  </div>-->
+
+<!--  <div class="icon-wrapper">-->
+<!--    <i class="iconfont icon-weixin"></i>-->
+<!--    <i class="iconfont icon-qq"></i>-->
+<!--    <i class="iconfont icon-git"></i>-->
+<!--  </div>-->
+<!--</div>-->
+<div id="app">
+  <input id="username" v-model="usn" >
+  <input id="password" v-model="pswd">
+  <button onclick="loginIn()">login</button>
+</div>
+</body>
+<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+</html>
