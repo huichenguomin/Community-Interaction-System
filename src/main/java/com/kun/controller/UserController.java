@@ -25,6 +25,7 @@ public class UserController {
             System.out.println("注册失败");
         }
     }
+
     /*
         发送验证码到手机的api
      */
@@ -39,11 +40,12 @@ public class UserController {
     public boolean checkCode(@PathVariable String telephone,@PathVariable String code){
         return service.checkCode(telephone,code);
     }
+
     /*
         用户名密码登录
         这里暂且用json格式提交
      */
-    @GetMapping
+    @PostMapping
     public void loginByPassword(@RequestBody User user) throws ExecutionException, InterruptedException {
         if(service.loginByPassword(user)){
             System.out.println("用户"+user.getUsername()+"欢迎您！");

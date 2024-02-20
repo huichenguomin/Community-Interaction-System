@@ -60,7 +60,12 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
-
+    @Override
+    public User getUserById(int userId) {
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getUid,userId);
+        return userMapper.selectOne(wrapper);
+    }
 
     @Override
     public void sendCode(String telephone) {
@@ -112,4 +117,6 @@ public class UserServiceImpl implements UserService {
     public boolean checkCode(String telephone,String code) {
         return code.equals(redisTemplate.opsForValue().get(telephone));
     }
+
+
 }
