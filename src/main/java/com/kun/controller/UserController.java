@@ -17,7 +17,7 @@ public class UserController {
         用户注册
         这里数据库自增uid太大，需要去设置自增的起始值和步长
      */
-    @PutMapping
+    @PostMapping("/register")
     public void register(@RequestBody User user){
         if(service.register(user)){
             System.out.println("注册成功！");
@@ -45,7 +45,7 @@ public class UserController {
         用户名密码登录
         这里暂且用json格式提交
      */
-    @PostMapping
+    @PostMapping("/login")
     public void loginByPassword(@RequestBody User user) throws ExecutionException, InterruptedException {
         if(service.loginByPassword(user)){
             System.out.println("用户"+user.getUsername()+"欢迎您！");
