@@ -16,7 +16,9 @@ public class Article {
 
     private Integer author_id;
     private Date punish_time;
+    private Date last_time_update;
     private Integer view_num;
     private String content;
+
 
 }

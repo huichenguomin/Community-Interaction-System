@@ -49,14 +49,24 @@ public class UserServiceImpl implements UserService {
             public String call() throws Exception {
                 LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
                 wrapper.eq(User::getUsername,user.getUsername());
-                return userMapper.selectOne(wrapper).getPassword();
+                try {
+                    return userMapper.selectOne(wrapper).getPassword();
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
+                return null;
             }
         };
         Future<String> future = executor.submit(callable);
         while(true){
             if(future.isDone()) {
                 //future的get方法若没获取到返回值则会一直阻塞
-                return user.getPassword().equals(future.get());
+                try{
+                    return user.getPassword().equals(future.get());
+                }catch (NullPointerException e){
+                    return false;
+                }
+
             }
         }
     }
