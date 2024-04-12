@@ -18,7 +18,13 @@ public enum StateCodeEnum {
     USER_UPDATE_SUCCESS(220,"update user success"),
     USER_UPDATE_FAIL(221,"update user failed"),
     GET_USER_INFO_SUCCESS(400,"get user info success"),
-    GET_USER_INFO_FAIL(401,"get user info failed")
+    GET_USER_INFO_FAIL(401,"get user info failed"),
+
+    NO_EXIST_TELEPHONE(902,"there has no user by telephone given"),
+    SEND_SMSCODE_SUCCESS(900,"send smscode success"),
+    SEND_SMSCODE_FAIL(901,"send smscode failed"),
+    LOGIN_BY_SMSCODE_SUCCESS(910,"login by smscode success"),
+    LOGIN_BY_SMSCODE_FAIL(911,"check code error"),
     ;
 
 

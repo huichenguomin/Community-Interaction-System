@@ -25,4 +25,17 @@ public class ArticleController {
         }
         return new ResponseResult<>(StateCodeEnum.GET_ALL_ARTICLE_SUCCESS.getCode(),StateCodeEnum.GET_ALL_ARTICLE_SUCCESS.getMsg(), list);
     }
+    // 发布文章
+    // 从token中获取发布者信息，与文章一同存入数据库
+
+    // 点击文章标题进入阅读
+    // 获取文章详细信息，阅读量+1
+
+    // 修改文章
+    // 修改时间
+
+    // 删除文章
+    // 再整一个表暂存删除的文章，指定时间内可以找回
+
+    // 评论功能
 }
