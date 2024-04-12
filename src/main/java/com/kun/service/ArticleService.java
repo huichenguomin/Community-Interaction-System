@@ -3,11 +3,14 @@ package com.kun.service;
 import com.kun.entity.Article;
 import com.kun.entity.ResponseResult;
 
+import java.net.Inet4Address;
 import java.util.List;
 
 public interface ArticleService {
     // 查询所有文章
     List<Article> getAllArticles();
+    // 分页查询
+    List<Article> getArticlesByPageNum(Integer pageNum);
     // 用户发布一个帖子文章
     ResponseResult<String> postArticle(Article article);
     // 用户删除一个帖子

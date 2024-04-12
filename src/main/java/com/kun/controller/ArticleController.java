@@ -6,6 +6,7 @@ import com.kun.entity.ResponseResult;
 import com.kun.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +25,11 @@ public class ArticleController {
             return new ResponseResult<>(StateCodeEnum.GET_ALL_ARTICLE_FAIL.getCode(),StateCodeEnum.GET_ALL_ARTICLE_FAIL.getMsg(),null );
         }
         return new ResponseResult<>(StateCodeEnum.GET_ALL_ARTICLE_SUCCESS.getCode(),StateCodeEnum.GET_ALL_ARTICLE_SUCCESS.getMsg(), list);
+    }
+
+    @GetMapping("/getByPageNum/{pageNum}")
+    public ResponseResult<List<Article>> getArticlesByPageNum(@PathVariable Integer pageNum){
+        return new ResponseResult<>(200,null,articleService.getArticlesByPageNum(pageNum));
     }
     // 发布文章
     // 从token中获取发布者信息，与文章一同存入数据库
