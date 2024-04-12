@@ -30,7 +30,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        //认证、
+        //认证
         if(StringUtil.isBlank(token)){
             //请求头中无token，抛出异常
             throw new Exception("无token");

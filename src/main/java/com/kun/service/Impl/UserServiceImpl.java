@@ -1,6 +1,7 @@
 package com.kun.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kun.Utils.HttpUtils;
 import com.kun.dao.UserMapper;
 import com.kun.entity.User;
@@ -16,7 +17,7 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
     @Autowired
     private UserMapper userMapper;
     //redis模板

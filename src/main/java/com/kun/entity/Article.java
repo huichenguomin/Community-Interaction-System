@@ -14,10 +14,10 @@ public class Article {
     private String title;
     private String summary;
 
-    private Integer author_id;
-    private Date punish_time;
-    private Date last_time_update;
-    private Integer view_num;
+    private Integer authorId;
+    private Date punishTime;
+    private Date lastTimeUpdate;
+    private Integer viewNum;
     private String content;
 
 
