@@ -10,6 +10,12 @@ import lombok.ToString;
 public enum StateCodeEnum {
     GET_ALL_ARTICLE_SUCCESS(500,"get all article success"),
     GET_ALL_ARTICLE_FAIL(501,"get failed!"),
+    SAVE_OR_UPDATE_ARTICLE_SUCCESS(510,"save or update article success"),
+    SAVE_OR_UPDATE_ARTICLE_FAIL(511,"save or update article fail"),
+    DELETE_ARTICLE_SUCCESS(520,"delete the article success"),
+    DELETE_ARTICLE_FAIL(520,"delete the article fail"),
+    QUERY_ARTICLE_SUCCESS(530,"query articles by keywords success"),
+    QUERY_ARTICLE_FAIL(531,"query articles by keywords fail"),
 
     USER_LOGIN_SUCCESS(200,"login success"),
     USER_LOGIN_FAIL(201,"login failed!"),

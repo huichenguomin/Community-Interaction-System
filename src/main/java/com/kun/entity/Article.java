@@ -15,8 +15,8 @@ public class Article {
     private String summary;
 
     private Integer authorId;
-    private Date punishTime;
-    private Date lastTimeUpdate;
+    private String punishTime;
+    private String lastTimeUpdate;
     private Integer viewNum;
     private String content;
 
