@@ -9,6 +9,7 @@ import com.kun.entity.User;
 import com.kun.service.ArticleService;
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,7 +66,6 @@ public class ArticleController {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         article.setLastTimeUpdate(formatter.format(System.currentTimeMillis()));
         return articleService.saveOrUpdateArticle(article);
-
     }
     /*
      * 删除文章
@@ -83,6 +83,15 @@ public class ArticleController {
     @PostMapping("/viewNumInc/{articleId}")
     public ResponseResult<Boolean> viewNumInc(@PathVariable Integer articleId){
         return articleService.incViewNum(articleId);
+    }
+
+    /*
+     * 搜索一个帖子根据 title->summary->content的顺序来查找
+     * 目前为纯字符串匹配，后续可以考虑更细的粒度，在字符串中分词，然后用分词来查找
+     */
+    @GetMapping("/queryByWords")
+    public ResponseResult<List<Article>> queryArticlesByWords(@Param("words")String words){
+        return articleService.queryArticleByWords(words);
     }
     // 评论功能
 }

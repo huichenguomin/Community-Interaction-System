@@ -19,6 +19,11 @@ public enum StateCodeEnum {
     INC_VIEW_NUM_SUCCESS(540,"increase view number success"),
     INC_VIEW_NUM_FAIL(541,"increase view number failed"),
 
+    GET_COMMENTS_SUCCESS(600,"get comments by articleId success"),
+    GET_COMMENTS_FAIL(601,"get comments fail"),
+    PUBLISH_COMMENT_SUCCESS(610,"publish comment success"),
+    PUBLISH_COMMENT_FAIL(611,"publish comment fail"),
+
     USER_LOGIN_SUCCESS(200,"login success"),
     USER_LOGIN_FAIL(201,"login failed!"),
     USER_REGISTER_SUCCESS(210,"register success"),
