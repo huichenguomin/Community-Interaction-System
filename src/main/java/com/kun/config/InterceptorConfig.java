@@ -10,9 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(jwtInterceptor())
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/cis/**");
+        registry.addInterceptor(jwtInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns("/cis/**")
+                .excludePathPatterns("/articles/all", "/articles/getByPageNum/**");
     }
 
     @Bean

@@ -7,17 +7,17 @@ import com.kun.entity.ResponseResult;
 import com.kun.entity.User;
 import com.kun.service.ArticleService;
 import jakarta.servlet.http.HttpServletRequest;
-import net.sf.jsqlparser.expression.StringValue;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.List;
-import java.util.SimpleTimeZone;
+
 
 @RestController
-@RequestMapping("/cis")
+@RequestMapping("/articles")
 public class ArticleController {
     @Autowired
     private ArticleService articleService;

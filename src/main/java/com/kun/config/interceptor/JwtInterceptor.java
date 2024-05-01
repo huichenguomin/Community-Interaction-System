@@ -18,6 +18,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 public class JwtInterceptor implements HandlerInterceptor {
 
+    private static final String sign = "hello %#& wk";
     @Autowired
     private UserService userService;
     @Override
@@ -33,7 +34,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         //认证
         if(StringUtil.isBlank(token)){
             //请求头中无token，抛出异常
-            throw new Exception("无token");
+            throw new Exception("无token,请登录");
         }
         String userId = null;
         try{
@@ -51,7 +52,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             throw new Exception("用户不存在");
         }
         //用户实际的密码作为密钥，去验证token
-        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
+        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(sign)).build();
         try{
             jwtVerifier.verify(token);
         }catch (JWTVerificationException e){

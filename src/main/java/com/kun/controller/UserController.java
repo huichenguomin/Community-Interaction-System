@@ -1,8 +1,6 @@
 package com.kun.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kun.Utils.TokenUtils;
 import com.kun.controller.enums.StateCodeEnum;
 import com.kun.dao.UserMapper;
@@ -12,9 +10,7 @@ import com.kun.service.Impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -77,10 +73,6 @@ public class UserController {
         if(service.loginByPassword(user)){
             System.out.println("用户"+user.getUsername()+"欢迎您！");
 
-//            LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-//            lambdaQueryWrapper.eq(User::getUsername,user.getUsername());
-//            User userInfo = userMapper.selectOne(lambdaQueryWrapper);
-//            if(userInfo!=null) userInfo.setPassword(null);
             LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
             wrapper.eq(User::getUsername,user.getUsername());
             User currUser = service.getOne(wrapper);
