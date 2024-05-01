@@ -13,7 +13,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(jwtInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/cis/**")
-                .excludePathPatterns("/articles/all", "/articles/getByPageNum/**");
+                .excludePathPatterns("/articles/all", "/articles/getByPageNum/**")
+                .excludePathPatterns("/articles/viewNumInc/**");
     }
 
     @Bean

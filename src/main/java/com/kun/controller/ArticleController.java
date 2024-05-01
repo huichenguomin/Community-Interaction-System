@@ -1,5 +1,6 @@
 package com.kun.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.kun.Utils.TokenUtils;
 import com.kun.controller.enums.StateCodeEnum;
 import com.kun.entity.Article;
@@ -37,8 +38,11 @@ public class ArticleController {
     public ResponseResult<List<Article>> getArticlesByPageNum(@PathVariable Integer pageNum){
         return new ResponseResult<>(200,null,articleService.getArticlesByPageNumOrderByViewNum(pageNum));
     }
-    // 发布文章
-    // 从token中获取发布者信息、自动获取当前系统时间，与文章一同存入数据库
+
+    /*
+     * 发布文章
+     * 从token中获取发布者信息、自动获取当前系统时间，与文章一同存入数据库
+     */
     @PostMapping("/saveArticle")
     public ResponseResult<Boolean> saveArticle(@RequestBody Article article, HttpServletRequest request){
         String token = request.getHeader("token");
@@ -51,12 +55,11 @@ public class ArticleController {
         return articleService.saveOrUpdateArticle(article);
     }
 
-    // 点击文章标题进入阅读
-    // 获取文章详细信息，阅读量+1，这里如何能保证数据库中读写不同步的问题，即保证阅读量的正确添加
 
-
-    // 修改文章 by id 由于mp提供的saveOrUpdate方法判断插入还是更新的依据是是否传入主键id
-    // 修改时间
+     /*
+      * 修改文章 by id 由于mp提供的saveOrUpdate方法判断插入还是更新的依据是是否传入主键id
+      * 修改时间
+      */
     @PostMapping("/updateArticle")
     public ResponseResult<Boolean> updateArticle(@RequestBody Article article){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -64,11 +67,22 @@ public class ArticleController {
         return articleService.saveOrUpdateArticle(article);
 
     }
-    // 删除文章
-    // 再整一个表暂存删除的文章，指定时间内可以找回
+    /*
+     * 删除文章
+     * 再整一个表暂存删除的文章，指定时间内可以找回
+     */
     @DeleteMapping("/deleteArticle/{id}")
     public ResponseResult<Boolean> deleteArticleById(@PathVariable Integer id){
         return articleService.deleteArticle(id);
+    }
+
+    /*
+     * 点击帖子，帖子的阅读量增加（会存在并发问题）
+     * 可以考虑存在redis中，这样就不需要每次都去查一次数据库中的viewNum
+     */
+    @PostMapping("/viewNumInc/{articleId}")
+    public ResponseResult<Boolean> viewNumInc(@PathVariable Integer articleId){
+        return articleService.incViewNum(articleId);
     }
     // 评论功能
 }

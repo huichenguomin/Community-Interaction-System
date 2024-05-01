@@ -20,7 +20,8 @@ public interface ArticleService {
     // 匹配查询一个帖子的title -> summary ->content
     ResponseResult<List<Article>> queryArticleByWords(String words);
 
-    //
+    // 帖子阅读量的增加
+    ResponseResult<Boolean> incViewNum(Integer articleId);
 
     ///  留言评论功能
     ///

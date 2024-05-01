@@ -23,8 +23,8 @@ public class UserController {
     @Autowired
     private TokenUtils tokenUtils;
     /*
-        用户注册
-        这里数据库自增uid太大，需要去设置自增的起始值和步长
+     * 用户注册
+     * 这里数据库自增uid太大，需要去设置自增的起始值和步长
      */
     @PostMapping("/register")
     public ResponseResult<User> register(@RequestBody User user){
@@ -36,7 +36,7 @@ public class UserController {
     }
 
     /*
-        发送验证码到手机的api
+     * 发送验证码到手机的api
      */
     @GetMapping("/{telephone}")
     public ResponseResult<String> sendCode(@PathVariable String telephone){
@@ -55,8 +55,9 @@ public class UserController {
         }
         return new ResponseResult<>(StateCodeEnum.NO_EXIST_TELEPHONE.getCode(), StateCodeEnum.NO_EXIST_TELEPHONE.getMsg(), null);
     }
+
     /*
-        输入验证码后进行验证，传给前端一个返回值（安全问题，避免伪造登录成功）
+     * 输入验证码后进行验证，传给前端一个返回值（安全问题，避免伪造登录成功）
      */
 //    @PostMapping("/{telephone}/{code}")
 //    public boolean checkCode(@PathVariable String telephone,@PathVariable String code){
@@ -65,8 +66,8 @@ public class UserController {
 //    }
 
     /*
-        用户名密码登录
-        这里暂且用json格式提交
+     * 用户名密码登录
+     * 这里暂且用json格式提交
      */
     @PostMapping("/loginByPwd")
     public ResponseResult<String> loginByPassword(@RequestBody User user, HttpServletResponse response) throws ExecutionException, InterruptedException {
@@ -84,8 +85,8 @@ public class UserController {
     }
 
     /*
-        loginBySMScode
-        先调用sendCode接口，然后将获取到的code和telephone一起返回回来，然后做一次根据telephone的查询，获取到用户后，将用户的token返回
+     * loginBySMScode
+     * 先调用sendCode接口，然后将获取到的code和telephone一起返回回来，然后做一次根据telephone的查询，获取到用户后，将用户的token返回
      */
     @PostMapping("/{telephone}/{code}")
     public ResponseResult<String> loginBySMSCode(@PathVariable String telephone,@PathVariable String code,HttpServletResponse response){
@@ -111,9 +112,9 @@ public class UserController {
         return new ResponseResult<>(StateCodeEnum.GET_USER_INFO_FAIL.getCode(), StateCodeEnum.GET_USER_INFO_FAIL.getMsg(), null);
     }
     /*
-      更新用户信息(删除用户)需要设置事务，可回滚
-      这里拦截器会拦截到
-    */
+     * 更新用户信息(删除用户)需要设置事务，可回滚
+     * 这里拦截器会拦截到
+     */
     @PostMapping("/updateUserInfo")
     public ResponseResult<User> updateUser(@RequestBody User user){
         if(userMapper.updateById(user)!=0){
