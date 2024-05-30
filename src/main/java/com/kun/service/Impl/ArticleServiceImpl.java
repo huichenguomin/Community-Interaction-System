@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,Article> implements ArticleService {
 
-    private static final Integer pageSize=1;
+    private static final Integer pageSize=2;
     @Autowired
     private ArticleMapper articleMapper;
 
@@ -44,21 +44,47 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,Article> imple
     }
 
     @Override
-    public List<Article> getArticlesByPageNumOrderByViewNum(Integer pageNum) {
+    public ResponseResult<List<Article>> getArticlesByPageNumOrderByViewNum(Integer pageNum) {
         Page<Article> page =new Page<>(pageNum,pageSize);
 //        LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
         // order by view_num desc
 
         wrapper.orderByDesc(Article::getViewNum);
         page(page,wrapper);
-        wrapper.clear();
-        List<Article> list = page.getRecords();
-        list.stream().map(article -> {
-            // 对查询到的文章进行批处理
-            return article;
-        }).collect(Collectors.toList());
 
-        return list;
+        List<Article> list = null;
+        try{
+            list = page.getRecords();
+        }catch (SqlSessionException e){
+            e.printStackTrace();
+        }finally {
+            wrapper.clear();
+        }
+//        list.stream().map(article -> {
+//            // 对查询到的文章进行批处理
+//            return article;
+//        }).collect(Collectors.toList());
+
+        return (list==null) ? new ResponseResult<>(StateCodeEnum.GET_ORDERED_FAIL.getCode(), StateCodeEnum.GET_ORDERED_FAIL.getMsg(), list)
+                            : new ResponseResult<>(StateCodeEnum.GET_ORDERED_SUCCESS.getCode(), StateCodeEnum.GET_ORDERED_SUCCESS.getMsg(), list);
+    }
+
+    @Override
+    public ResponseResult<List<Article>> getArticlesByPageNumOrderByTime(Integer pageNum) {
+        Page<Article> page = new Page<>(pageNum,pageSize);
+        wrapper.orderByDesc(Article::getPunishTime);
+        page(page,wrapper);
+        List<Article> list = null;
+        try {
+            list = page.getRecords();
+        }catch (SqlSessionException e){
+            e.printStackTrace();
+        }finally {
+            wrapper.clear();
+        }
+
+        return (list==null) ? new ResponseResult<>(StateCodeEnum.GET_ORDERED_FAIL.getCode(), StateCodeEnum.GET_ORDERED_FAIL.getMsg(), list)
+                : new ResponseResult<>(StateCodeEnum.GET_ORDERED_SUCCESS.getCode(), StateCodeEnum.GET_ORDERED_SUCCESS.getMsg(), list);
     }
 
     @Transactional

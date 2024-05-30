@@ -20,6 +20,8 @@ public enum StateCodeEnum {
     INC_VIEW_NUM_FAIL(541,"increase view number failed"),
     GET_BY_CATEGORY_SUCCESS(550,"get articles by category success"),
     GET_BY_CATEGORY_FAIL(551,"get articles by category failed"),
+    GET_ORDERED_SUCCESS(560,"get ordered articles success"),
+    GET_ORDERED_FAIL(561,"get ordered articles failed"),
 
     GET_COMMENTS_SUCCESS(600,"get comments by articleId success"),
     GET_COMMENTS_FAIL(601,"get comments fail"),

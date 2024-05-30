@@ -10,7 +10,9 @@ public interface ArticleService {
     List<Article> getAllArticles();
     // 分页查询，热度最高的排前面
     // 后续考虑根据用户之前点击的内容采用对应的推荐算法
-    List<Article> getArticlesByPageNumOrderByViewNum(Integer pageNum);
+    ResponseResult<List<Article>> getArticlesByPageNumOrderByViewNum(Integer pageNum);
+    // 分页查询最新的文章
+    ResponseResult<List<Article>> getArticlesByPageNumOrderByTime(Integer pageNum);
     // 用户发布或者更新一个帖子文章
     ResponseResult<Boolean> saveOrUpdateArticle(Article article);
     // 用户删除一个帖子

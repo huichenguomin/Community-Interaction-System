@@ -34,9 +34,13 @@ public class ArticleController {
         return new ResponseResult<>(StateCodeEnum.GET_ALL_ARTICLE_SUCCESS.getCode(),StateCodeEnum.GET_ALL_ARTICLE_SUCCESS.getMsg(), list);
     }
 
-    @GetMapping("/getByPageNum/{pageNum}")
-    public ResponseResult<List<Article>> getArticlesByPageNum(@PathVariable Integer pageNum){
-        return new ResponseResult<>(200,null,articleService.getArticlesByPageNumOrderByViewNum(pageNum));
+    @GetMapping("/getByPageNum/VN/{pageNum}")
+    public ResponseResult<List<Article>> getArticlesByPageNumOrByVN(@PathVariable Integer pageNum){
+        return articleService.getArticlesByPageNumOrderByViewNum(pageNum);
+    }
+    @GetMapping("/getByPageNum/time/{pageNum}")
+    public ResponseResult<List<Article>> getArticlesByPageNumOrByTime(@PathVariable Integer pageNum){
+        return articleService.getArticlesByPageNumOrderByTime(pageNum);
     }
 
     /*
