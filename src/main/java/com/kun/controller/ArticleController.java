@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
 
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -106,5 +107,10 @@ public class ArticleController {
     @GetMapping("/category/time")
     public ResponseResult<List<Article>> getByCateOrderByTime(@Param("cateName") String cateName){
         return articleService.getArticleByCateOrderByTime(cateName);
+    }
+
+    @GetMapping("/top/{n}")
+    public ResponseResult<Set> getTopnWords(@PathVariable Integer n){
+        return articleService.getHotWordsTopN(n);
     }
 }

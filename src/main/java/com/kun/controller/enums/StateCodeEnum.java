@@ -8,6 +8,10 @@ import lombok.ToString;
 @Getter
 @ToString
 public enum StateCodeEnum {
+    GET_HOT_WORDS_TOP_SUCCESS(100,"get top hot words success"),
+    GET_HOT_WORDS_TOP_FAIL(101,"get top hot words failed"),
+
+
     GET_ALL_ARTICLE_SUCCESS(500,"get all article success"),
     GET_ALL_ARTICLE_FAIL(501,"get failed!"),
     SAVE_OR_UPDATE_ARTICLE_SUCCESS(510,"save or update article success"),

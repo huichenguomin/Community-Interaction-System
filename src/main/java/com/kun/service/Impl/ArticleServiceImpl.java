@@ -1,7 +1,6 @@
 package com.kun.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kun.controller.enums.StateCodeEnum;
@@ -13,13 +12,15 @@ import com.kun.entity.ResponseResult;
 import com.kun.service.ArticleService;
 import org.apache.ibatis.session.SqlSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.Set;
 
+@SuppressWarnings(value={"rawtypes","unchecked"})
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,Article> implements ArticleService {
 
@@ -30,6 +31,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,Article> imple
     @Autowired
     private CategoryMapper categoryMapper;
 
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     // 这样设计一个全局的wrapper会导致一个后果，每次做完一个操作都要去清空其中的条件
     // 并且wrapper的清空时机也需要把控
@@ -109,7 +112,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,Article> imple
     // need to query page
     @Override
     public ResponseResult<List<Article>> queryArticleByWords(String words) {
-//        LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
+        Double score = redisTemplate.opsForZSet().score("hot",words);
+        if(score==null)
+            redisTemplate.opsForZSet().add("hot",words,1);
+        else
+            redisTemplate.opsForZSet().incrementScore("hot",words,1);
+
         wrapper.like(Article::getTitle,words).or().like(Article::getSummary,words).or().like(Article::getContent,words).orderByDesc(Article::getViewNum);
         try{
             List <Article> list = articleMapper.selectList(wrapper);
@@ -123,6 +131,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,Article> imple
     }
     /*
      * synchronized
+     *
      */
     @Override
     public ResponseResult<Boolean> incViewNum(Integer articleId) {
@@ -178,5 +187,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,Article> imple
         }
         return  (res==null) ? new ResponseResult<>(StateCodeEnum.GET_BY_CATEGORY_FAIL.getCode(), StateCodeEnum.PUBLISH_COMMENT_FAIL.getMsg(), res)
                 : new ResponseResult<>(StateCodeEnum.GET_BY_CATEGORY_SUCCESS.getCode(), StateCodeEnum.GET_BY_CATEGORY_SUCCESS.getMsg(), res);
+    }
+
+    @Override
+    public ResponseResult<Set> getHotWordsTopN(Integer n) {
+        Set s = null;
+        try{
+            s = redisTemplate.opsForZSet().reverseRangeWithScores("hot",0,n);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return (s==null) ? new ResponseResult<>(StateCodeEnum.GET_HOT_WORDS_TOP_FAIL.getCode(), StateCodeEnum.GET_HOT_WORDS_TOP_FAIL.getMsg(), s)
+                         : new ResponseResult<>(StateCodeEnum.GET_HOT_WORDS_TOP_SUCCESS.getCode(), StateCodeEnum.GET_HOT_WORDS_TOP_SUCCESS.getMsg(), s);
     }
 }

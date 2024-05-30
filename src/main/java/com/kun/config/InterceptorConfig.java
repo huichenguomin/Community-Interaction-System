@@ -18,6 +18,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
                                      "/articles/viewNumInc/**",
                                      "/articles/queryByWords/**",
                                      "/articles/category/**",
+                                     "/articles/top/**",
                                      "/comment/get/**");
 
     }

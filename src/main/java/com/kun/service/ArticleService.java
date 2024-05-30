@@ -4,6 +4,8 @@ import com.kun.entity.Article;
 import com.kun.entity.ResponseResult;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface ArticleService {
     // 查询所有文章
@@ -28,4 +30,7 @@ public interface ArticleService {
     ResponseResult<List<Article>> getArticleByCateOrderByViewNum(String name);
     // 根据类型查询，最新
     ResponseResult<List<Article>> getArticleByCateOrderByTime(String name);
+
+    // 获取topN的热搜词以及其热度
+    ResponseResult<Set> getHotWordsTopN(Integer n);
 }
