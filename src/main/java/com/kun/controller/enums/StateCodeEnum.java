@@ -18,6 +18,8 @@ public enum StateCodeEnum {
     QUERY_ARTICLE_FAIL(531,"query articles by keywords fail"),
     INC_VIEW_NUM_SUCCESS(540,"increase view number success"),
     INC_VIEW_NUM_FAIL(541,"increase view number failed"),
+    GET_BY_CATEGORY_SUCCESS(550,"get articles by category success"),
+    GET_BY_CATEGORY_FAIL(551,"get articles by category failed"),
 
     GET_COMMENTS_SUCCESS(600,"get comments by articleId success"),
     GET_COMMENTS_FAIL(601,"get comments fail"),

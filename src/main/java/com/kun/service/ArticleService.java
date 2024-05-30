@@ -3,7 +3,6 @@ package com.kun.service;
 import com.kun.entity.Article;
 import com.kun.entity.ResponseResult;
 
-import java.net.Inet4Address;
 import java.util.List;
 
 public interface ArticleService {
@@ -23,6 +22,8 @@ public interface ArticleService {
     // 帖子阅读量的增加
     ResponseResult<Boolean> incViewNum(Integer articleId);
 
-    ///  留言评论功能
-    ///
+    // 根据类型查询，最热
+    ResponseResult<List<Article>> getArticleByCateOrderByViewNum(String name);
+    // 根据类型查询，最新
+    ResponseResult<List<Article>> getArticleByCateOrderByTime(String name);
 }

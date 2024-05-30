@@ -6,9 +6,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kun.controller.enums.StateCodeEnum;
 import com.kun.dao.ArticleMapper;
+import com.kun.dao.CategoryMapper;
 import com.kun.entity.Article;
+import com.kun.entity.Category;
 import com.kun.entity.ResponseResult;
 import com.kun.service.ArticleService;
+import org.apache.ibatis.session.SqlSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,Article> imple
     private static final Integer pageSize=1;
     @Autowired
     private ArticleMapper articleMapper;
+
+    @Autowired
+    private CategoryMapper categoryMapper;
 
 
     // 这样设计一个全局的wrapper会导致一个后果，每次做完一个操作都要去清空其中的条件
@@ -89,7 +95,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,Article> imple
         wrapper.clear();
         return new ResponseResult<>(StateCodeEnum.QUERY_ARTICLE_FAIL.getCode(), StateCodeEnum.QUERY_ARTICLE_FAIL.getMsg(), null);
     }
-
+    /*
+     * synchronized
+     */
     @Override
     public ResponseResult<Boolean> incViewNum(Integer articleId) {
         Article article = this.getById(articleId);
@@ -101,4 +109,48 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,Article> imple
         return new ResponseResult<>(StateCodeEnum.INC_VIEW_NUM_FAIL.getCode(), StateCodeEnum.INC_VIEW_NUM_FAIL.getMsg(), effectRow);
     }
 
+    /**
+     * attention: 这里考虑到可能执行sql时，发生异常，导致wrapper中的内容无法被释放而影响其他的语句
+     *            所以将clear语句放到了finally中
+     * @param name
+     * @return
+     */
+    @Override
+    public ResponseResult<List<Article>> getArticleByCateOrderByViewNum(String name) {
+        LambdaQueryWrapper<Category> cateWrapper = new LambdaQueryWrapper<>();
+        cateWrapper.eq(Category::getName,name);
+        Category category = categoryMapper.selectOne(cateWrapper);
+
+
+        wrapper.eq(Article::getCategory,category.getId()).orderByDesc(Article::getViewNum);
+        List<Article> res = null;
+        try{
+            res = articleMapper.selectList(wrapper);
+        }catch (SqlSessionException e) {
+            e.printStackTrace();
+        }finally {
+            wrapper.clear();
+        }
+        return  (res==null) ? new ResponseResult<>(StateCodeEnum.GET_BY_CATEGORY_FAIL.getCode(), StateCodeEnum.PUBLISH_COMMENT_FAIL.getMsg(), res)
+                            : new ResponseResult<>(StateCodeEnum.GET_BY_CATEGORY_SUCCESS.getCode(), StateCodeEnum.GET_BY_CATEGORY_SUCCESS.getMsg(), res);
+    }
+
+    @Override
+    public ResponseResult<List<Article>> getArticleByCateOrderByTime(String name) {
+        LambdaQueryWrapper<Category> cateWrapper = new LambdaQueryWrapper<>();
+        cateWrapper.eq(Category::getName,name);
+        Category category = categoryMapper.selectOne(cateWrapper);
+
+        wrapper.eq(Article::getCategory,category.getId()).orderByDesc(Article::getPunishTime);
+        List<Article> res = null;
+        try{
+            res = articleMapper.selectList(wrapper);
+        }catch (SqlSessionException e) {
+            e.printStackTrace();
+        }finally {
+            wrapper.clear();
+        }
+        return  (res==null) ? new ResponseResult<>(StateCodeEnum.GET_BY_CATEGORY_FAIL.getCode(), StateCodeEnum.PUBLISH_COMMENT_FAIL.getMsg(), res)
+                : new ResponseResult<>(StateCodeEnum.GET_BY_CATEGORY_SUCCESS.getCode(), StateCodeEnum.GET_BY_CATEGORY_SUCCESS.getMsg(), res);
+    }
 }

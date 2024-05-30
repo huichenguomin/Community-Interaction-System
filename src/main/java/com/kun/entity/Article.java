@@ -20,5 +20,6 @@ public class Article {
     private Integer viewNum;
     private String content;
 
+    private Integer category;
 
 }

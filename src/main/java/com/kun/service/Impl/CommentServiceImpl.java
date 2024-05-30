@@ -55,8 +55,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper,Comment> imple
                     return commentDTO;
                 }
                 return null;
-            }).toList());
-            resList.removeIf(Objects::isNull);
+            }).filter(Objects::nonNull).toList());
+//            resList.removeIf(Objects::isNull);
             return new ResponseResult<>(StateCodeEnum.GET_COMMENTS_SUCCESS.getCode(), StateCodeEnum.GET_COMMENTS_SUCCESS.getMsg(), resList);
         } catch (Exception e) {
             e.printStackTrace();

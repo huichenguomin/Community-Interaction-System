@@ -1,6 +1,5 @@
 package com.kun.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.kun.Utils.TokenUtils;
 import com.kun.controller.enums.StateCodeEnum;
 import com.kun.entity.Article;
@@ -86,6 +85,7 @@ public class ArticleController {
     }
 
     /*
+     * 2024/5/7 是否可以给content添加前缀索引，来提升检索的速度
      * 搜索一个帖子根据 title->summary->content的顺序来查找
      * 目前为纯字符串匹配，后续可以考虑更细的粒度，在字符串中分词，然后用分词来查找
      */
@@ -93,5 +93,14 @@ public class ArticleController {
     public ResponseResult<List<Article>> queryArticlesByWords(@Param("words")String words){
         return articleService.queryArticleByWords(words);
     }
-    // 评论功能
+
+    @GetMapping("/category/VN")
+    public ResponseResult<List<Article>> getByCateOrderByVN(@Param("cateName") String cateName){
+        return articleService.getArticleByCateOrderByViewNum(cateName);
+    }
+
+    @GetMapping("/category/time")
+    public ResponseResult<List<Article>> getByCateOrderByTime(@Param("cateName") String cateName){
+        return articleService.getArticleByCateOrderByTime(cateName);
+    }
 }
